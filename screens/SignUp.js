@@ -7,7 +7,7 @@ import {
   Image,
 } from "react-native";
 import React, { useState } from "react";
-import { TextInput } from "react-native-paper";
+import { TextInput, Button } from "react-native-paper";
 import { KeyboardSpacer } from "react-native-keyboard-spacer-fixed";
 
 const SignUp = () => {
@@ -16,11 +16,13 @@ const SignUp = () => {
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const [age, setAge] = React.useState("");
+  const [loading, setLoading] = useState(false);
 
   const [showPassword, setShowPassword] = React.useState(false);
   const [showCPassword, setShowCPassword] = React.useState(false);
 
   const handleSignUp = () => {
+    setLoading(true);
     if (userName.trim().length == 0) {
       alert("Pelase insert username");
     } else if (password.trim().length == 0) {
@@ -34,6 +36,8 @@ const SignUp = () => {
         alert("wrong");
       }
     }
+    console.log("welcome");
+    setLoading(false);
   };
 
   return (
@@ -50,13 +54,15 @@ const SignUp = () => {
             marginTop: 20,
           }}
         />
+
         <Text style={styles.headerText}>Welcome </Text>
         <Text style={styles.headerText2}>Create Account</Text>
       </View>
       <View style={styles.formContainer}>
-        <Text>User name</Text>
         <TextInput
-          type="outlined"
+          label="User name"
+          mode="outlined"
+          left={<TextInput.Icon icon="account" iconColor="#000" />}
           activeUnderlineColor="purple"
           placeholder="Enter User Name"
           value={userName}
@@ -64,8 +70,11 @@ const SignUp = () => {
           placeholderTextColor="#666"
           style={styles.input}
         />
-        <Text>E mail</Text>
+
         <TextInput
+          label="Email"
+          mode="outlined"
+          left={<TextInput.Icon icon="email" iconColor="#000" />}
           placeholder="Enter Email"
           keyboardType="email-address"
           value={email}
@@ -73,8 +82,11 @@ const SignUp = () => {
           placeholderTextColor="#666"
           style={styles.input}
         />
-        <Text>Password</Text>
+
         <TextInput
+          label="Password"
+          mode="outlined"
+          left={<TextInput.Icon icon="lock" iconColor="#000" />}
           placeholder="Enter Password"
           autoCorrect={false}
           right={
@@ -91,9 +103,12 @@ const SignUp = () => {
           placeholderTextColor="#666"
           style={styles.input}
         />
-        <Text>Confirm Password</Text>
+
         <TextInput
+          label="Confirm Password"
+          mode="outlined"
           placeholder="Enter password again"
+          left={<TextInput.Icon icon="lock" iconColor="#000" />}
           autoCorrect={false}
           value={confirmPassword}
           onChangeText={(text) => setConfirmPassword(text)}
@@ -109,22 +124,36 @@ const SignUp = () => {
           placeholderTextColor="#666"
           style={styles.input}
         />
-        <Text>Age</Text>
+
         <TextInput
+          label="Age"
+          mode="outlined"
           placeholder="enter age"
+          left={<TextInput.Icon icon="calendar-account" iconColor="#000" />}
           value={age}
           keyboardType="numeric"
           onChangeText={(text) => setAge(text)}
           placeholderTextColor="#666"
           style={styles.input}
         />
-        <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+        {/* <TouchableOpacity style={styles.button} onPress={handleSignUp}>
           <Text>Sign up</Text>
+        </TouchableOpacity> */}
+        <TouchableOpacity onPress={() => handleSignUp()}>
+          <Button
+            icon="account-arrow-right"
+            mode="text"
+            style={styles.button}
+            loading={loading}
+          >
+            Sign up
+          </Button>
         </TouchableOpacity>
+
         <Text style={{ alignSelf: "center", marginBottom: 10, marginTop: 20 }}>
           If you already sign up
         </Text>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={{
             alignSelf: "center",
             width: "90%",
@@ -136,7 +165,10 @@ const SignUp = () => {
           }}
         >
           <Text style={{ alignSelf: "center" }}> Login</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+        <Button icon="login" mode="contained-tonal" style={styles.buttonLogin}>
+          Login
+        </Button>
       </View>
       <KeyboardSpacer space={10} />
     </SafeAreaView>
@@ -158,15 +190,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   input: {
-    height: 40,
+    height: 50,
     width: "90%",
     marginBottom: 10,
-    // color: "#333",
     fontSize: 16,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    // borderColor: "#333",
-    // borderWidth: 1,
   },
   button: {
     height: 50,
@@ -175,7 +202,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 10,
-    padding: 5,
+    paddingHorizontal: 5,
+  },
+  buttonLogin: {
+    width: "90%",
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 10,
   },
   headerText: {
     marginLeft: "10%",

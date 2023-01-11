@@ -85,14 +85,14 @@ const SignIn = () => {
 
       <View style={styles.inputArea}>
         <Text style={styles.welcomeText}>Welcome</Text>
-        <Text style={styles.label}>Email </Text>
+
         <TextInput
           placeholder="Enter your email"
           style={styles.input}
           mode="outlined"
           label="Email"
           value={email}
-          maxLength={40}
+          left={<TextInput.Icon icon="email" iconColor="#000" />}
           keyboardType="email-address"
           autoCapitalize="none"
           autoCorrect={false}
@@ -104,16 +104,17 @@ const SignIn = () => {
           {emailErrorMessage}
         </HelperText>
 
-        <Text style={styles.label}>Password </Text>
         <TextInput
-          hhplaceholder="Enter your Password "
+          placeholder="Enter your Password "
           style={styles.input}
           label="Password"
           mode="outlined"
           value={password}
+          maxLength={40}
           textContentType="password"
           autoCorrect={false}
           secureTextEntry={showPassword}
+          left={<TextInput.Icon icon="lock" iconColor="#000" />}
           right={
             <TextInput.Icon
               icon={"eye"}
@@ -197,17 +198,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     position: "relative",
   },
-  label: {
-    alignSelf: "flex-start",
-    marginLeft: "5%",
-    marginBottom: "5%",
-  },
+
   input: {
     height: 50,
     width: "90%",
     marginBottom: 10,
     fontSize: 16,
-    paddingHorizontal: 20,
     borderRadius: 5,
   },
   button: {
