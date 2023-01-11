@@ -4,20 +4,71 @@ import {
   View,
   SafeAreaView,
   Image,
-  TextInput,
-  Button,
   TouchableOpacity,
-  Animated,
 } from "react-native";
 import React, { useState } from "react";
 import { KeyboardSpacer } from "react-native-keyboard-spacer-fixed";
+import { TextInput, HelperText } from "react-native-paper";
+import { validate } from "email-validator";
+import COLORS from "../constant/colors";
 
 const SignIn = () => {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState(false);
+  const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState(false);
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
 
-  const handleSignIn = () => {};
+  const [showPassword, setShowPassword] = useState(false);
 
+  const handleBlur = () => {
+    if (!email) {
+      setEmailError(true);
+      setEmailErrorMessage("Email is required.");
+    } else if (!validate(email)) {
+      setEmailError(true);
+      setEmailErrorMessage("Invalid Email.");
+    } else {
+      setEmailError(false);
+      setEmailErrorMessage("");
+    }
+    if (!password) {
+      setPasswordError(true);
+      setPasswordErrorMessage("Password is required.");
+    } else if (password.length < 4) {
+      setPasswordError(true);
+      setPasswordErrorMessage("Password should have atleast 8 characters.");
+    } else {
+      setPasswordError(false);
+      setPasswordErrorMessage("");
+    }
+  };
+  const handleSignIn = () => {
+    if (!email) {
+      setEmailError(true);
+      setEmailErrorMessage("Email is required.");
+    } else if (!validate(email)) {
+      setEmailError(true);
+      setEmailErrorMessage("Invalid Email.");
+    } else {
+      setEmailError(false);
+      setEmailErrorMessage("");
+    }
+    if (!password) {
+      setPasswordError(true);
+      setPasswordErrorMessage("Password is required.");
+    } else if (password.length < 4) {
+      setPasswordError(true);
+      setPasswordErrorMessage("Password should have atleast 8 characters.");
+    } else {
+      setPasswordError(false);
+      setPasswordErrorMessage("");
+    }
+    if (!emailError && !passwordError) {
+      alert("welcome");
+    }
+  };
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.logoSection}>
@@ -36,27 +87,51 @@ const SignIn = () => {
         <Text style={styles.welcomeText}>Welcome</Text>
         <Text style={styles.label}>Email </Text>
         <TextInput
-          style={styles.input}
           placeholder="Enter your email"
-          placeholderTextColor="#666666"
+          style={styles.input}
+          mode="outlined"
+          label="Email"
           value={email}
           maxLength={40}
           keyboardType="email-address"
           autoCapitalize="none"
           autoCorrect={false}
-          onChangeText={(text) => setEmail(text)}
+          textContentType="emailAddress"
+          onBlur={handleBlur}
+          onChangeText={(email) => setEmail(email)}
         />
+        <HelperText type="error" visible={emailError}>
+          {emailErrorMessage}
+        </HelperText>
+
         <Text style={styles.label}>Password </Text>
         <TextInput
+          hhplaceholder="Enter your Password "
           style={styles.input}
-          placeholder="Enter your Password "
-          placeholderTextColor="#666666"
+          label="Password"
+          mode="outlined"
           value={password}
-          secureTextEntry
+          textContentType="password"
+          autoCorrect={false}
+          secureTextEntry={showPassword}
+          right={
+            <TextInput.Icon
+              icon={"eye"}
+              onPress={() => {
+                setShowPassword(!showPassword);
+              }}
+            />
+          }
           onChangeText={(text) => setPassword(text)}
         />
+        <HelperText type="error" visible={passwordError}>
+          {passwordErrorMessage}
+        </HelperText>
 
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => handleSignIn(email, password)}
+        >
           <Text style={styles.buttonText}>Sign In</Text>
         </TouchableOpacity>
 
@@ -76,6 +151,7 @@ const SignIn = () => {
             width: "90%",
             padding: 5,
             marginTop: 5,
+            justifyContent: "center",
           }}
         >
           <Text style={{ textAlign: "center", color: "#fff" }}>
@@ -83,7 +159,7 @@ const SignIn = () => {
           </Text>
         </TouchableOpacity>
       </View>
-      <KeyboardSpacer space={10} />
+      <KeyboardSpacer space={5} />
     </SafeAreaView>
   );
 };
@@ -104,7 +180,8 @@ const styles = StyleSheet.create({
   },
   welcomeText: {
     alignSelf: "flex-start",
-    marginBottom: 20,
+    marginBottom: 10,
+    marginTop: "20%",
     fontSize: 30,
     fontWeight: "bold",
     marginLeft: "5%",
@@ -126,24 +203,22 @@ const styles = StyleSheet.create({
     marginBottom: "5%",
   },
   input: {
-    height: 40,
+    height: 50,
     width: "90%",
-    marginBottom: 20,
-    color: "#333",
+    marginBottom: 10,
     fontSize: 16,
     paddingHorizontal: 20,
     borderRadius: 5,
-    borderBottomWidth: 2,
-    borderBottomColor: "#333",
   },
   button: {
     height: 50,
     width: "90%",
-    backgroundColor: "#4BB0EE",
+    backgroundColor: COLORS.button,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 10,
     padding: 5,
+    marginTop: 10,
   },
   buttonText: {
     color: "#fff",

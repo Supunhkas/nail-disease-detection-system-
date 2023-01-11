@@ -2,14 +2,17 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import SignIn from "./screens/SignIn";
 import SignUp from "./screens/SignUp";
+import { Provider as PaperProvider } from "react-native-paper";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      {/* <SignIn /> */}
-      <SignUp />
-    </View>
+    <PaperProvider>
+      <View style={styles.container}>
+        <StatusBar style="auto" />
+        <SignIn />
+        {/* <SignUp /> */}
+      </View>
+    </PaperProvider>
   );
 }
 

@@ -3,7 +3,7 @@ const COLORS = {
   background: "#F6F6F6",
   light_blue: "#98DED9",
   light_blue1: "#C7FFD8",
-  blue_button: "#3879E9",
+  button: "#3879E9",
 
   white: "#fff",
 };
